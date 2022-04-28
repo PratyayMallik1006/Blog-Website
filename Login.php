@@ -17,7 +17,8 @@ if (isset($_POST["Submit"])) {
   if($_SESSION['CODE']!=$captcha){
     $_SESSION["ErrorMessage"]= "Captch incorrect/empty";
     Redirect_to("Login.php");
-  }else {
+  }
+  else {
     // code for checking username and password from Database
     $Found_Account=Login_Attempt($UserName,$Password);
     if ($Found_Account) {

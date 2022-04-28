@@ -192,9 +192,7 @@ if(isset($_POST["Submit"])){
                                 <div class="form-group">
                                     <input type="text" class="form-control mb-4" name="CommenterName" id="" placeholder="Name">
                                     <input type="text" class="form-control mb-4" name="CommenterEmail" id="" placeholder="Email">
-                                    <textarea class="form-control mb-4" name="ComenterThoughts" id="" cols="30" rows="6">
-                                        Comment
-                                    </textarea>
+                                    <textarea class="form-control mb-4" name="ComenterThoughts" id="ComenterThoughts" cols="30" rows="6"></textarea>
                                     <button type="submit" name="Submit" class="btn btn-primary">
                                         <i class="fa-solid fa-check"></i> Submit</a>
                                     </button>
@@ -209,8 +207,40 @@ if(isset($_POST["Submit"])){
     <!--Main Area End-->
 
     <!--Side Area-->
-            <div class="col-sm-4" style="min-height:40px; background-color: aqua;"></div>
+    <div class="col-sm-4" style="min-height:40px;">
+        <div class="card mt-4">
+            <div class="card-body bg-primary text-white">
+                <h3>Catergories</h3>
+                <ul>
+                    <li>Technology</li>
+                    <li>Science</li>
+                    <li>News</li>
+                    <li>Travel</li>
+                </ul>
+            </div>
+            
+            </div>
+        
+    
+    <div class="card mt-4">
+        <div class="card-header bg-dark text-white">
+            <h2>Subscribe</h2>
         </div>
+        <div class="card-body" style="background-color:#eee">
+            <form class="" action="">
+                        
+                <input type="text" name="Search" class="form-control me-2" placeholder="email">
+                <button class="btn btn-success" name="SearchButton">Subscribe</button>
+                
+            </form>
+        </div>
+        
+        </div>
+    </div>
+    
+</div>
+    </div>
+    </div>
     </div>
     <!--End Side Area-->
     <!--FOOTER-->

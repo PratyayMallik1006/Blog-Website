@@ -81,11 +81,30 @@
                     $stmt->bindValue(':search','%'.$Search.'%');
                     $stmt->execute();
                 }
-                //SQL for all result
-                else{
-                $sql = "SELECT * FROM posts ORDER BY id desc";
-                $stmt = $ConnectingDB->query($sql);
-                }
+                elseif (isset($_GET["page"])) {
+                    $Page = $_GET["page"];
+                    if($Page==0||$Page<1){
+                    $ShowPostFrom=0;
+                  }else{
+                    $ShowPostFrom=($Page*2)-2;
+                  }
+                    $sql ="SELECT * FROM posts ORDER BY id desc LIMIT $ShowPostFrom,2";
+                    $stmt=$ConnectingDB->query($sql);
+                  }
+                  // Query When Category is active in URL Tab
+                  elseif (isset($_GET["category"])) {
+                    $Category = $_GET["category"];
+                    $sql = "SELECT * FROM posts WHERE category='$Category' ORDER BY id desc";
+                    $stmt=$ConnectingDB->query($sql);
+                  }
+        
+                  // The default SQL query
+                  else{
+                    $sql  = "SELECT * FROM posts ORDER BY id desc LIMIT 0,2";
+                    $stmt =$ConnectingDB->query($sql);
+                  }
+
+                  
                 while($DataRows = $stmt->fetch()){
                     $PostId = $DataRows["id"];
                     $DateTime = $DataRows["datetime"];
@@ -114,10 +133,50 @@
                     </div>
                 </div>
                 <?php } ?>
-            
-            </div>
-        
-    <!--Main Area End-->
+            <!-- Pagination -->
+          <nav>
+            <ul class="pagination pagination-lg">
+              <!-- Creating Backward Button -->
+              <?php if( isset($Page) ) {
+                if ( $Page>1 ) {?>
+             <li class="page-item">
+                 <a href="Blog.php?page=<?php  echo $Page-1; ?>" class="page-link">&laquo;</a>
+               </li>
+             <?php } }?>
+            <?php
+            global $ConnectingDB;
+            $sql           = "SELECT COUNT(*) FROM posts";
+            $stmt          = $ConnectingDB->query($sql);
+            $RowPagination = $stmt->fetch();
+            $TotalPosts    = array_shift($RowPagination);
+            // echo $TotalPosts."<br>";
+            $PostPagination=$TotalPosts/2;
+            $PostPagination=ceil($PostPagination);
+            // echo $PostPagination;
+            for ($i=1; $i <=$PostPagination ; $i++) {
+              if( isset($Page) ){
+                if ($i == $Page) {  ?>
+              <li class="page-item active">
+                <a href="Blog.php?page=<?php  echo $i; ?>" class="page-link"><?php  echo $i; ?></a>
+              </li>
+              <?php
+            }else {
+              ?>  <li class="page-item">
+                  <a href="Blog.php?page=<?php  echo $i; ?>" class="page-link"><?php  echo $i; ?></a>
+                </li>
+            <?php  }
+          } } ?>
+          <!-- Creating Forward Button -->
+          <?php if ( isset($Page) && !empty($Page) ) {
+            if ($Page <= $PostPagination) {?>
+         <li class="page-item">
+             <a href="Blog.php?page=<?php  echo $Page+1; ?>" class="page-link">&raquo;</a>
+           </li>
+         <?php } }?>
+            </ul>
+          </nav>
+        </div>
+        <!-- Main Area End-->
 
     <!--Side Area-->
     <div class="col-sm-4" style="min-height:40px;">
